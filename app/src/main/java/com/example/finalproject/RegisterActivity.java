@@ -1,26 +1,126 @@
 package com.example.finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    EditText firstName, lastName, email, password;
+
+    TextView existingAccount;
+
+    Button submitForm;
+
+    FirebaseAuth fbAuth;
+
+    ProgressBar progressBar;
+
+    Spinner userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Spinner spinner = (Spinner) findViewById(R.id.userTypeSpinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.users_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+        // User input
+        firstName   = findViewById(R.id.firstNameInput);
+        lastName    = findViewById(R.id.lastNameInput);
+        email       = findViewById(R.id.emailInput);
+        password    = findViewById(R.id.passwordInput);
+
+        // User type spinner
+        userType = (Spinner) findViewById(R.id.userTypeSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.users_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        userType.setAdapter(adapter);
+
+        // Submit registration form button
+        submitForm = findViewById(R.id.submitForm);
+
+        // Firebase instance
+        fbAuth = FirebaseAuth.getInstance();
+
+        // Progress bar
+        progressBar = findViewById(R.id.progressBar);
+
+        // Already have an account?
+        existingAccount = findViewById(R.id.regLink);
+
+        // Registration flow
+        submitForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailValue = email.getText().toString().trim();
+                String passwordValue = password.getText().toString();
+
+                // Email validation can be added here
+                if(TextUtils.isEmpty(emailValue)){
+                    email.setError("Email is required!");
+                    return;
+                }
+
+                // Check password was entered
+                if (TextUtils.isEmpty(passwordValue)){
+                    password.setError("Password is required!");
+                    return;
+                }
+
+                // Check password length
+                if (passwordValue.length() < 6){
+                    password.setError("Password must be at least 6 characters long!");
+                    return;
+                }
+
+                // Set the visibility of the progress bar
+                progressBar.setVisibility(View.VISIBLE);
+
+                // Register user in Firebase
+                fbAuth.createUserWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(RegisterActivity.this, "Thank you for registering!", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        } else {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                // Already have an account?
+                existingAccount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    }
+                });
+
+            }
+        });
+
     }
+
 }

@@ -3,9 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.24431057563587685" />
+        <entry key="app/src/main/res/layout-w1240dp/fragment_class_list.xml" value="0.21458333333333332" />
+        <entry key="app/src/main/res/layout-w1240dp/fragment_user_list.xml" value="0.21458333333333332" />
+        <entry key="app/src/main/res/layout-w1240dp/fragment_user_profile.xml" value="0.21458333333333332" />
+        <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.2701502732240437" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3582427536231884" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.3582427536231884" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21145833333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main_1.xml" value="0.35190217391304346" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_class_list.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_user_list.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/fragment_user_profile.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/menu/main_nav_menu.xml" value="0.3802083333333333" />
       </map>
     </option>
   </component>
