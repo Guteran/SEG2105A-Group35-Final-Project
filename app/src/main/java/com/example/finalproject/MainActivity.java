@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     NavHostFragment navHostFragment;
 
+    FirebaseAuth fbAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,17 @@ public class MainActivity extends AppCompatActivity {
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        fbAuth = FirebaseAuth.getInstance();
+
+//        fbAuth.addIdTokenListener(new FirebaseAuth.IdTokenListener() {
+//            @Override
+//            public void onIdTokenChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                finish();
+//            }
+//        });
+
 
     }
 

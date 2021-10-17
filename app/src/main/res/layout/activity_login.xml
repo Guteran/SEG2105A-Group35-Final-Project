@@ -28,15 +28,6 @@ tools:context=".RegisterActivity">
             android:textSize="24dp" />
 
         <EditText
-        android:id="@+id/passwordInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
-
-        <EditText
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,6 +35,15 @@ tools:context=".RegisterActivity">
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/submitForm"
@@ -56,10 +56,23 @@ tools:context=".RegisterActivity">
             android:id="@+id/regLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
             android:gravity="center_horizontal"
             android:text="Don't have an account?"
             android:textColor="#673AB7" />
 
+
+        <ProgressBar
+            android:id="@+id/logProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
     </LinearLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

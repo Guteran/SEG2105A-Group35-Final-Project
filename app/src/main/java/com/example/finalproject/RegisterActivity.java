@@ -21,8 +21,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.regex.Pattern;
-
 public class RegisterActivity extends AppCompatActivity {
 
     EditText firstName, lastName, email, password;
@@ -61,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance();
 
         // Progress bar
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.regProgressBar);
 
         // Already have an account?
         existingAccount = findViewById(R.id.regLink);
