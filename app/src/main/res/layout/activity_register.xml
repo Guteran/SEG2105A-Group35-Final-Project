@@ -28,6 +28,16 @@
             android:textSize="24dp" />
 
         <EditText
+            android:id="@+id/usernameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="text"
+            android:maxLength="32" />
+
+        <EditText
             android:id="@+id/firstNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -18,14 +18,21 @@ import android.widget.Toast;
 
 import com.example.finalproject.MainActivity;
 import com.example.finalproject.R;
+import com.example.finalproject.users.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText firstName, lastName, email, password;
+    EditText firstName, lastName, email, password, username;
 
     TextView existingAccount;
 
@@ -37,12 +44,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     Spinner userType;
 
+    DatabaseReference databaseUsers;
+
+    boolean usernameExists = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         // User input
+        username    = findViewById(R.id.usernameInput);
         firstName   = findViewById(R.id.firstNameInput);
         lastName    = findViewById(R.id.lastNameInput);
         email       = findViewById(R.id.emailInput);
@@ -59,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Firebase instance
         fbAuth = FirebaseAuth.getInstance();
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
         // Progress bar
         progressBar = findViewById(R.id.regProgressBar);
@@ -70,6 +83,10 @@ public class RegisterActivity extends AppCompatActivity {
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String usernameValue = username.getText().toString().trim();
+                String firstNameValue = firstName.getText().toString().trim();
+                String userTypeValue = userType.getSelectedItem().toString();
+                String lastNameValue = lastName.getText().toString().trim();
                 String emailValue = email.getText().toString().trim();
                 String passwordValue = password.getText().toString();
 
@@ -95,20 +112,27 @@ public class RegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // Register user in Firebase
-                fbAuth.createUserWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(RegisterActivity.this, "Thank you for registering!", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            finish();
-                        } else {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                if (!userExists(usernameValue)) {
+                    fbAuth.createUserWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                progressBar.setVisibility(View.INVISIBLE);
+                                String userId = fbAuth.getUid();
+                                createUser(userId, userTypeValue, usernameValue, emailValue, firstNameValue, lastNameValue);
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                Toast.makeText(RegisterActivity.this, "Thank you for registering!", Toast.LENGTH_LONG).show();
+                                finish();
+                            } else {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+
+                } else {
+                    username.setError("Username already in use!");
+                }
 
                 // Already have an account?
                 existingAccount.setOnClickListener(new View.OnClickListener() {
@@ -123,4 +147,30 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    private void createUser(String id, String userType, String username, String email, String firstName, String lastName){
+        User newUser = new User(id, userType, username, email, firstName, lastName);
+        databaseUsers.child(id).setValue(newUser);
+    }
+
+    private boolean userExists(String username) {
+        if (usernameExists){
+            usernameExists = false;
+        }
+        databaseUsers.orderByChild("username").equalTo(username).addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+                if(dataSnapshot.exists()) {
+                    usernameExists = true;
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(RegisterActivity.this, "Error! " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        );
+        Toast.makeText(RegisterActivity.this, "Username: " + String.valueOf(usernameExists), Toast.LENGTH_LONG).show();
+        return usernameExists;
+
+}
 }
