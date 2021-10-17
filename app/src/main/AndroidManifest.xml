@@ -12,18 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject">
         <activity
-            android:name=".HomeActivity"
-            android:exported="true"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Theme.FinalProject.NoActionBar" />
-        <activity
-            android:name=".UserProfileActivity"
+            android:name=".loginFlow.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".RegisterActivity"
-            android:exported="true" />
-        <activity
-            android:name=".LoginActivity"
+            android:name=".loginFlow.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
