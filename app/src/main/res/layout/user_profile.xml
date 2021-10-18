@@ -31,6 +31,21 @@
             android:scrollbarSize="4dp"
             android:text="TextView"
             android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:layout_weight="1"
+            android:onClick="logout"
+            android:text="Log Out"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65999997" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
