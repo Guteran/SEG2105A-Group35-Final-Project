@@ -35,7 +35,8 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="text"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/firstNameInput"
@@ -45,7 +46,8 @@
             android:ems="10"
             android:hint="First Name"
             android:inputType="text"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/lastNameInput"
@@ -55,7 +57,8 @@
             android:ems="10"
             android:hint="Last Name"
             android:inputType="text"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:minHeight="48dp" />
 
         <LinearLayout
             android:id="@+id/sppinerBlock"
@@ -65,7 +68,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/userTypeText"
+                android:id="@+id/userTypeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -76,7 +79,8 @@
                 android:id="@+id/userTypeSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </LinearLayout>
 
         <EditText
@@ -86,7 +90,8 @@
             android:layout_marginBottom="32dp"
             android:ems="10"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/passwordInput"
@@ -95,7 +100,8 @@
             android:layout_marginBottom="32dp"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/submitForm"

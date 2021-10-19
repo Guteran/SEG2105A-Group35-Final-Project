@@ -2,7 +2,6 @@ package com.example.finalproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -13,10 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.finalproject.loginFlow.LoginActivity;
-import com.example.finalproject.loginFlow.RegisterActivity;
-import com.example.finalproject.users.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.finalproject.javaClasses.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     NavHostFragment navHostFragment;
 
     FirebaseAuth fbAuth;
-
-    Bundle bundle = new Bundle();
 
     DatabaseReference databaseUsers;
 

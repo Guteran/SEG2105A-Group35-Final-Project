@@ -1,6 +1,5 @@
 package com.example.finalproject;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,11 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.finalproject.users.User;
+import com.example.finalproject.javaClasses.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,11 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class UserProfileFragment extends Fragment {
 
-    TextView welcomeText;
+    TextView welcomeText, userTypeText;
 
     FirebaseAuth fbAuth;
 
     DatabaseReference databaseUsers;
+
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,24 +45,30 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_user_profile, container, false);
         welcomeText = view.findViewById(R.id.welcomeText);
+        userTypeText = view.findViewById(R.id.userTypeText);
+        progressBar = view.findViewById(R.id.progressBar);
 
         databaseUsers.child(fbAuth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String username = snapshot.getValue(User.class).getUsername();
-                updateWelcomeMessage(username);
+                User currentUser = snapshot.getValue(User.class);
+                updateUserProfile(currentUser);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                updateWelcomeMessage("Default");
+//                updateUserProfile("Anonymous user", "member");
             }
         });
         return view;
     }
 
-    private void updateWelcomeMessage(String username){
-        welcomeText.setText("Welcome " + username);
+    private void updateUserProfile(User user){
+        welcomeText.setText("Welcome " + user.getUsername() + "!");
+        userTypeText.setText("User type: " + user.getUserType() + ".");
+        progressBar.setVisibility(View.INVISIBLE);
+        welcomeText.setVisibility(View.VISIBLE);
+        userTypeText.setVisibility(View.VISIBLE);
     }
 
 
