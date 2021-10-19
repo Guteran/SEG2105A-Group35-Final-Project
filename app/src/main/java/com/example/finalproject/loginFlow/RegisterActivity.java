@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // Register user in Firebase
-                databaseUsers.orderByChild("username").equalTo(usernameValue).addValueEventListener(new ValueEventListener() {
+                databaseUsers.orderByChild("username").equalTo(usernameValue).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(!dataSnapshot.exists()){
@@ -126,6 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(RegisterActivity.this, "Thank you for registering!", Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -140,17 +141,18 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Error! " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
                     }
                   });
-                // Already have an account?
-                existingAccount.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                    }
-                });
+
 
             }
         });
-
+        // Already have an account?
+        existingAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        });
 
     }
 

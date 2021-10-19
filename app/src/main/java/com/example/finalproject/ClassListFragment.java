@@ -36,8 +36,7 @@ import java.util.List;
 public class ClassListFragment extends Fragment {
 
     TextView classTypeNameText, classTypeDescriptionText;
-    Button createClassTypeButton;
-    ListView classTypeListView;
+    Button newClassTypeButton;
 
     List<ClassType> classTypeList;
     DatabaseReference databaseClassTypes;
@@ -50,71 +49,44 @@ public class ClassListFragment extends Fragment {
 
     }
 
-    ActivityResultLauncher<Intent> createClassTypeResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK){
-                        Intent data = result.getData();
-                        ClassType classType = new ClassType(data.getStringExtra("classTypeName"), data.getStringExtra("classTypeDescription"));
-                        String classTypeId = databaseClassTypes.push().getKey();
-                        databaseClassTypes.child(classTypeId).setValue(classType);
-
-                        Toast.makeText(getActivity(), "New class was added!", Toast.LENGTH_LONG);
-                    }
-                }
-            }
-    );
-
-    public void createClassType(View view){
-        Intent intent = new Intent(getActivity().getApplicationContext(), CreateClassType.class);
-        createClassTypeResultLauncher.launch(intent);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        databaseClassTypes.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                classTypeList.clear();
-                for(DataSnapshot postSnapshot : snapshot.getChildren()){
-                    ClassType classType = postSnapshot.getValue(ClassType.class);
-                    classTypeList.add(classType);
-                }
-                ClassTypeList classTypeAdapter = new ClassTypeList(getActivity(), classTypeList);
-                classTypeListView.setAdapter(classTypeAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "Error! " + error.getMessage(), Toast.LENGTH_LONG);
-            }
-        });
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_class_list, container, false);
-        classTypeListView = view.findViewById(R.id.classTypeListElement);
+        newClassTypeButton = view.findViewById(R.id.newClassTypeButton);
+        newClassTypeButton = view.findViewById(R.id.newClassTypeButton);
 
-        createClassType = (Button) view.findViewById(R.id.createActivityButton);
-
-        createClassType.setOnClickListener(new View.OnClickListener() {
+        newClassTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createClassType(view);
+                Intent intent = new Intent(getActivity(), CreateClassType.class);
+                startActivity(intent);
             }
         });
 
-
-        classTypeList = new ArrayList<>();
-        databaseClassTypes = FirebaseDatabase.getInstance().getReference("classTypes");
-
         return view;
     }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        databaseClassTypes.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                classTypeList.clear();
+//                for(DataSnapshot postSnapshot : snapshot.getChildren()){
+//                    ClassType classType = postSnapshot.getValue(ClassType.class);
+//                    classTypeList.add(classType);
+//                }
+//                ClassTypeList classTypeAdapter = new ClassTypeList(getActivity(), classTypeList);
+//                classTypeListView.setAdapter(classTypeAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(getActivity(), "Error! " + error.getMessage(), Toast.LENGTH_LONG);
+//            }
+//        });
+//    }
 }
