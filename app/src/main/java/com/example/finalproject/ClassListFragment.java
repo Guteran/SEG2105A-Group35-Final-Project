@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,10 @@ public class ClassListFragment extends Fragment {
     List<ClassType> classTypeList;
     DatabaseReference databaseClassTypes, databaseUsers;
     FirebaseAuth fbAuth;
+
+    boolean isAdmin = false;
+
+    boolean isInstructor = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +83,21 @@ public class ClassListFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User currentUser = snapshot.getValue(User.class);
-                updateAdminVisibility(currentUser);
+                String userType = currentUser.getUserType();
+                switch (userType){
+                    case "admin":
+                        isAdmin = true;
+                        isInstructor = true;
+                        break;
+                    case "instructor":
+                        isAdmin = false;
+                        isInstructor = true;
+                        break;
+                    default:
+                        isAdmin = false;
+                        isInstructor = false;
+                }
+                updateAdminVisibility();
             }
 
             @Override
@@ -86,6 +105,17 @@ public class ClassListFragment extends Fragment {
 //                updateUserProfile("Anonymous user", "member");
             }
         });
+
+        listViewElement.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
+                // When clicked, show a toast with the TextView text
+                if (isAdmin){
+                    Toast.makeText(getContext(), "Test!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        listViewElement.setClickable(false);
 
         classTypeList = new ArrayList<>();
         return view;
@@ -114,8 +144,8 @@ public class ClassListFragment extends Fragment {
         });
     }
 
-    private void updateAdminVisibility(User user){
-        if (user.getUserType().equals("admin")){
+    private void updateAdminVisibility(){
+        if (isAdmin){
             newClassTypeButton.setVisibility(View.VISIBLE);
         }
     }

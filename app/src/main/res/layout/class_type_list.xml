@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:id="@+id/classTypeDescriptionLayout"
         android:layout_weight="3"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:text=""/>
 </LinearLayout>
