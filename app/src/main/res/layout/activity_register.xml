@@ -22,7 +22,7 @@
             android:id="@+id/regTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             android:text="Join Our Family!"
             android:textSize="24dp" />
@@ -35,7 +35,8 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="text"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/firstNameInput"
@@ -45,7 +46,8 @@
             android:ems="10"
             android:hint="First Name"
             android:inputType="text"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/lastNameInput"
@@ -55,7 +57,8 @@
             android:ems="10"
             android:hint="Last Name"
             android:inputType="text"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:minHeight="48dp" />
 
         <LinearLayout
             android:id="@+id/sppinerBlock"
@@ -65,7 +68,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/userTypeText"
+                android:id="@+id/userTypeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -76,7 +79,8 @@
                 android:id="@+id/userTypeSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </LinearLayout>
 
         <EditText
@@ -86,23 +90,33 @@
             android:layout_marginBottom="32dp"
             android:ems="10"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/submitForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Regiser" />
+            android:text="Register" />
+
+        <ProgressBar
+            android:id="@+id/regProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:indeterminate="true"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/regLink"
@@ -114,16 +128,6 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/regProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/regForm" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

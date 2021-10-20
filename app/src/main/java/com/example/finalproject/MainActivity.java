@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -8,10 +9,17 @@ import androidx.navigation.ui.NavigationUI;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.finalproject.loginFlow.LoginActivity;
+import com.example.finalproject.javaClasses.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     NavHostFragment navHostFragment;
 
     FirebaseAuth fbAuth;
+
+    DatabaseReference databaseUsers;
+
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +48,24 @@ public class MainActivity extends AppCompatActivity {
 
         fbAuth = FirebaseAuth.getInstance();
 
-//        fbAuth.addIdTokenListener(new FirebaseAuth.IdTokenListener() {
-//            @Override
-//            public void onIdTokenChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                finish();
-//            }
-//        });
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                currentUser = snapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Error! " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
     }
 
@@ -52,4 +74,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }
+
+
+
 }

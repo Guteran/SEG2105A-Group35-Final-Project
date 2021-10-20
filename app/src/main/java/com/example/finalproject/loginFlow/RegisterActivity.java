@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.finalproject.MainActivity;
 import com.example.finalproject.R;
-import com.example.finalproject.users.User;
+import com.example.finalproject.javaClasses.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,7 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -46,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     DatabaseReference databaseUsers;
 
-    boolean usernameExists = false;
+    boolean usernameExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,36 +111,46 @@ public class RegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // Register user in Firebase
-                if (!userExists(usernameValue)) {
-                    fbAuth.createUserWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                progressBar.setVisibility(View.INVISIBLE);
-                                String userId = fbAuth.getUid();
-                                createUser(userId, userTypeValue, usernameValue, emailValue, firstNameValue, lastNameValue);
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                Toast.makeText(RegisterActivity.this, "Thank you for registering!", Toast.LENGTH_LONG).show();
-                                finish();
-                            } else {
-                                progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-
-                } else {
-                    username.setError("Username already in use!");
-                }
-
-                // Already have an account?
-                existingAccount.setOnClickListener(new View.OnClickListener() {
+                databaseUsers.orderByChild("username").equalTo(usernameValue).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(!dataSnapshot.exists()){
+                            fbAuth.createUserWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()){
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        String userId = fbAuth.getUid();
+                                        createUser(userId, userTypeValue, usernameValue, emailValue, firstNameValue, lastNameValue);
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        Toast.makeText(RegisterActivity.this, "Thank you for registering!", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    } else {
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(RegisterActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            username.setError("Username already exists!");
+                        }
                     }
-                });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(RegisterActivity.this, "Error! " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                  });
 
+
+            }
+        });
+        // Already have an account?
+        existingAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
 
@@ -152,25 +161,13 @@ public class RegisterActivity extends AppCompatActivity {
         databaseUsers.child(id).setValue(newUser);
     }
 
-    private boolean userExists(String username) {
-        if (usernameExists){
+    private void setUsernameExists(boolean value){
+        Toast.makeText(RegisterActivity.this, "Username: " + String.valueOf(usernameExists), Toast.LENGTH_LONG).show();
+        if (value){
+            usernameExists = true;
+        } else
+        {
             usernameExists = false;
         }
-        databaseUsers.orderByChild("username").equalTo(username).addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot){
-                if(dataSnapshot.exists()) {
-                    usernameExists = true;
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(RegisterActivity.this, "Error! " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        );
-        Toast.makeText(RegisterActivity.this, "Username: " + String.valueOf(usernameExists), Toast.LENGTH_LONG).show();
-        return usernameExists;
-
-}
+    }
 }

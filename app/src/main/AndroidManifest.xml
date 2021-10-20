@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject">
         <activity
+            android:name=".CreateClassType"
+            android:exported="true" />
+        <activity
             android:name=".loginFlow.RegisterActivity"
             android:exported="true" />
         <activity

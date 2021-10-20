@@ -1,64 +1,153 @@
 package com.example.finalproject;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ClassListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.finalproject.javaClasses.ClassType;
+import com.example.finalproject.javaClasses.ClassTypeList;
+import com.example.finalproject.javaClasses.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class ClassListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Button newClassTypeButton;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ListView listViewElement;
 
-    public ClassListFragment() {
-        // Required empty public constructor
-    }
+    List<ClassType> classTypeList;
+    DatabaseReference databaseClassTypes, databaseUsers;
+    FirebaseAuth fbAuth;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ClassListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ClassListFragment newInstance(String param1, String param2) {
-        ClassListFragment fragment = new ClassListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    boolean isAdmin = false;
+
+    boolean isInstructor = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+
+        databaseClassTypes = FirebaseDatabase.getInstance().getReference("classTypes");
+
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+
+        fbAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_class_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_class_list, container, false);
+        newClassTypeButton = view.findViewById(R.id.newClassTypeButton);
+
+        listViewElement = view.findViewById(R.id.classTypeListElement);
+
+        newClassTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CreateClassType.class);
+                startActivity(intent);
+            }
+        });
+
+        databaseUsers.child(fbAuth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User currentUser = snapshot.getValue(User.class);
+                String userType = currentUser.getUserType();
+                switch (userType){
+                    case "admin":
+                        isAdmin = true;
+                        isInstructor = true;
+                        break;
+                    case "instructor":
+                        isAdmin = false;
+                        isInstructor = true;
+                        break;
+                    default:
+                        isAdmin = false;
+                        isInstructor = false;
+                }
+                updateAdminVisibility();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+//                updateUserProfile("Anonymous user", "member");
+            }
+        });
+
+        listViewElement.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
+                // When clicked, show a toast with the TextView text
+                if (isAdmin){
+                    Toast.makeText(getContext(), "Test!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        listViewElement.setClickable(false);
+
+        classTypeList = new ArrayList<>();
+        return view;
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        databaseClassTypes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                classTypeList.clear();
+                for(DataSnapshot postSnapshot : snapshot.getChildren()){
+                    ClassType classType = postSnapshot.getValue(ClassType.class);
+                    classTypeList.add(classType);
+                }
+                ClassTypeList classTypeAdapter = new ClassTypeList(getActivity(), classTypeList);
+                listViewElement.setAdapter(classTypeAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(), "Error! " + error.getMessage(), Toast.LENGTH_LONG);
+            }
+
+        });
+    }
+
+    private void updateAdminVisibility(){
+        if (isAdmin){
+            newClassTypeButton.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

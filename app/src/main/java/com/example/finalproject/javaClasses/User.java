@@ -1,14 +1,11 @@
-package com.example.finalproject.users;
-
-import android.widget.Switch;
-
-import java.util.Locale;
+package com.example.finalproject.javaClasses;
 
 public class User {
-    private String _id, _username, _email, _firstName, _lastName;
+    private String _id, _username, _email, _firstName, _lastName, _userType;
 
-    UserType _userType;
-
+    public User(){
+        this._username = "Default_User";
+    }
 
     public User(String id, String userType, String username, String email, String firstName, String lastName) {
         this._id = id;
@@ -18,14 +15,14 @@ public class User {
         this._lastName = lastName;
         switch (userType.toLowerCase()){
             case "admin":
-                this._userType = UserType.ADMIN;
+                this._userType = "admin";
                 break;
             case "instructor":
-                this._userType = UserType.INSTRUCTOR;
+                this._userType = "instructor";
                 break;
             case "member":
             default:
-                this._userType = UserType.MEMBER;
+                this._userType = "member";
         }
     }
 
@@ -45,7 +42,7 @@ public class User {
         return this._firstName;
     }
 
-    public UserType getUserType(){
+    public String getUserType(){
         return this._userType;
     }
 
@@ -53,15 +50,29 @@ public class User {
         return this._lastName;
     }
 
-    public void setUsername(String _username) {
-        this._username = _username;
+    public void setId(String id) {
+        this._id = id;
     }
 
-    public void setFirstName(String _firstName) {
-        this._firstName = _firstName;
+    public void setUsername(String username) {
+        this._username = username;
     }
 
-    public void setLastName(String _lastName) {
-        this._lastName = _lastName;
+    public void setEmail(String email) {
+        this._email = email;
     }
+
+    public void setFirstName(String firstName) {
+        this._firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this._lastName = lastName;
+    }
+
+    public void setUserType(String userType) {
+        this._userType = userType;
+    }
+
 }
+
