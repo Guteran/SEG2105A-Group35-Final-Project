@@ -31,6 +31,7 @@ public class UserProfileFragment extends Fragment {
 
     ProgressBar progressBar;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ public class UserProfileFragment extends Fragment {
 //                updateUserProfile("Anonymous user", "member");
             }
         });
+
         return view;
     }
 

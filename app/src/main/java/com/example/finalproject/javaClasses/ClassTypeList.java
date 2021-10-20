@@ -28,8 +28,8 @@ public class ClassTypeList extends ArrayAdapter<ClassType> {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.class_type_list, null, true);
 
-        TextView classTypeNameText = (TextView) listViewItem.findViewById(R.id.classTypeName);
-        TextView classTypeDescriptionText = (TextView) listViewItem.findViewById(R.id.classTypeDescription);
+        TextView classTypeNameText = (TextView) listViewItem.findViewById(R.id.classTypeNameLayout);
+        TextView classTypeDescriptionText = (TextView) listViewItem.findViewById(R.id.classTypeDescriptionLayout);
 
         ClassType classType = classTypeList.get(position);
         classTypeNameText.setText(classType.getClassTypeName());
