@@ -13,8 +13,6 @@ import com.example.finalproject.javaClasses.ClassType;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.Type;
-
 public class EditClassTypeActivity extends AppCompatActivity {
 
     EditText classTypeNameInput, classTypeDescriptionInput;
@@ -31,9 +29,9 @@ public class EditClassTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_class_type);
 
-        editClassTypeButton = findViewById(R.id.editClassTypeButton);
+        editClassTypeButton = findViewById(R.id.editUserButton);
 
-        deleteClassTypeButton = findViewById(R.id.deleteClassTypeButton);
+        deleteClassTypeButton = findViewById(R.id.deleteUserButton);
 
         databaseClassTypes = FirebaseDatabase.getInstance().getReference("classTypes");
 

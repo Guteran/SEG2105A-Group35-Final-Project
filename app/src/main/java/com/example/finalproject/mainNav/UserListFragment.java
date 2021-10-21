@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.finalproject.R;
+import com.example.finalproject.forms.EditClassTypeActivity;
+import com.example.finalproject.forms.EditUserActivity;
+import com.example.finalproject.javaClasses.ClassType;
 import com.example.finalproject.javaClasses.User;
 import com.example.finalproject.javaClasses.UserList;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,6 +98,16 @@ public class UserListFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
+                User user = (User) userListView.getAdapter().getItem(position);
+                Intent intent = new Intent(getContext(), EditUserActivity.class);
+                intent.putExtra("userId", user.getId());
+                startActivity(intent);
+
+            }
         });
 
 
