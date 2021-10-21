@@ -7,7 +7,7 @@
     tools:context=".forms.CreateClassType">
 
     <LinearLayout
-        android:id="@+id/loginForm"
+        android:id="@+id/editClassTypeForm"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -19,16 +19,16 @@
         app:layout_constraintVertical_bias="0.33">
 
         <TextView
-            android:id="@+id/createClassTitle"
+            android:id="@+id/editClassTypeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:gravity="center_horizontal"
-            android:text="Create New Class Type"
+            android:text="Edit Class Type"
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/classTypeNameInput"
+            android:id="@+id/editClassTypeNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -38,7 +38,7 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/classTypeDescriptionInput"
+            android:id="@+id/editClassTypeDescriptionInput"
             android:layout_width="match_parent"
             android:layout_height="164dp"
             android:layout_marginBottom="32dp"
@@ -48,10 +48,17 @@
             android:hint="Class description..."/>
 
         <Button
-            android:id="@+id/createClassTypeButton"
+            android:id="@+id/editClassTypeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Class Type" />
+            android:text="Edit Class Type" />
+
+        <Button
+            android:id="@+id/deleteClassTypeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/red_alert"
+            android:text="Delete Class Type" />
 
 
     </LinearLayout>

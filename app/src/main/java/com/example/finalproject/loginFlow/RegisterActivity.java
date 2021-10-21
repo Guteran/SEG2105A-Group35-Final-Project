@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.finalproject.MainActivity;
+import com.example.finalproject.mainNav.MainActivity;
 import com.example.finalproject.R;
 import com.example.finalproject.javaClasses.User;
 import com.google.android.gms.tasks.OnCompleteListener;

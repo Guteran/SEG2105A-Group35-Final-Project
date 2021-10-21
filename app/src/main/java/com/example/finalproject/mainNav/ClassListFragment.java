@@ -1,15 +1,8 @@
-package com.example.finalproject;
+package com.example.finalproject.mainNav;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -19,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.finalproject.forms.CreateClassType;
+import com.example.finalproject.R;
+import com.example.finalproject.forms.EditClassTypeActivity;
 import com.example.finalproject.javaClasses.ClassType;
 import com.example.finalproject.javaClasses.ClassTypeList;
 import com.example.finalproject.javaClasses.User;
@@ -110,7 +105,12 @@ public class ClassListFragment extends Fragment {
             public void onItemClick(AdapterView <? > arg0, View view, int position, long id) {
                 // When clicked, show a toast with the TextView text
                 if (isAdmin){
-                    Toast.makeText(getContext(), "Test!", Toast.LENGTH_SHORT).show();
+                    ClassType classType = (ClassType) listViewElement.getAdapter().getItem(position);
+                    Intent intent = new Intent(getContext(), EditClassTypeActivity.class);
+                    intent.putExtra("classTypeName", classType.getClassTypeName());
+                    intent.putExtra("classTypeDescription", classType.getClassTypeDescription());
+                    intent.putExtra("classTypeId", classType.getId());
+                    startActivity(intent);
                 }
             }
         });

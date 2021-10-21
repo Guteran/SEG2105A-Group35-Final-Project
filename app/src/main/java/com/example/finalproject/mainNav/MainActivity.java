@@ -1,4 +1,4 @@
-package com.example.finalproject;
+package com.example.finalproject.mainNav;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.finalproject.R;
 import com.example.finalproject.loginFlow.LoginActivity;
 import com.example.finalproject.javaClasses.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

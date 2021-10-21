@@ -6,17 +6,17 @@
     app:startDestination="@id/userProfileFragment">
     <fragment
         android:id="@+id/classListFragment"
-        android:name="com.example.finalproject.ClassListFragment"
+        android:name="com.example.finalproject.mainNav.ClassListFragment"
         android:label="fragment_class_list"
         tools:layout="@layout/fragment_class_list" />
     <fragment
         android:id="@+id/userListFragment"
-        android:name="com.example.finalproject.UserListFragment"
+        android:name="com.example.finalproject.mainNav.UserListFragment"
         android:label="fragment_user_list"
         tools:layout="@layout/fragment_user_list" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.finalproject.UserProfileFragment"
+        android:name="com.example.finalproject.mainNav.UserProfileFragment"
         android:label="UserProfileFragment" >
     </fragment>
 </navigation>

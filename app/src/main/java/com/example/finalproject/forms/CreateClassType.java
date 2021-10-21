@@ -1,4 +1,4 @@
-package com.example.finalproject;
+package com.example.finalproject.forms;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.finalproject.R;
 import com.example.finalproject.javaClasses.ClassType;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,7 +67,7 @@ public class CreateClassType extends AppCompatActivity {
         }
 
         String id = databaseClassTypes.push().getKey();
-        ClassType classType = new ClassType(nameValue, descriptionValue);
+        ClassType classType = new ClassType(id, nameValue, descriptionValue);
         databaseClassTypes.child(id).setValue(classType);
         return true;
     }

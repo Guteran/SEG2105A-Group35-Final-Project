@@ -1,4 +1,4 @@
-package com.example.finalproject;
+package com.example.finalproject.mainNav;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.finalproject.R;
 import com.example.finalproject.javaClasses.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -68,8 +69,8 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void updateUserProfile(User user){
-        welcomeText.setText("Welcome " + user.getUsername() + "!");
-        userTypeText.setText("User type: " + user.getUserType() + ".");
+        welcomeText.setText("Welcome " + user.getUsername() + "/" + user.getFirstName() + "!");
+        userTypeText.setText("You are logged in as " + user.getUserType() + ".");
         progressBar.setVisibility(View.INVISIBLE);
         welcomeText.setVisibility(View.VISIBLE);
         userTypeText.setVisibility(View.VISIBLE);

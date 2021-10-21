@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject">
         <activity
-            android:name=".CreateClassType"
+            android:name=".forms.EditClassTypeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".forms.CreateClassType"
             android:exported="true" />
         <activity
             android:name=".loginFlow.RegisterActivity"
@@ -27,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".mainNav.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
