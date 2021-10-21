@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.finalproject.forms.CreateClassType;
@@ -38,8 +39,12 @@ public class ClassListFragment extends Fragment {
     ListView listViewElement;
 
     List<ClassType> classTypeList;
+
     DatabaseReference databaseClassTypes, databaseUsers;
+
     FirebaseAuth fbAuth;
+
+    TextView adminInfoMessage;
 
     boolean isAdmin = false;
 
@@ -64,7 +69,11 @@ public class ClassListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_class_list, container, false);
         newClassTypeButton = view.findViewById(R.id.newClassTypeButton);
 
-        listViewElement = view.findViewById(R.id.classTypeListElement);
+        adminInfoMessage = view.findViewById(R.id.adminInfoMessage);
+
+        listViewElement = view.findViewById(R.id.userListView);
+
+
 
         newClassTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +101,6 @@ public class ClassListFragment extends Fragment {
                         isAdmin = false;
                         isInstructor = false;
                 }
-                updateAdminVisibility();
             }
 
             @Override
@@ -147,6 +155,8 @@ public class ClassListFragment extends Fragment {
     private void updateAdminVisibility(){
         if (isAdmin){
             newClassTypeButton.setVisibility(View.VISIBLE);
+            adminInfoMessage.setVisibility(View.VISIBLE);
+
         }
     }
 

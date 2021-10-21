@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject">
         <activity
+            android:name=".forms.EditUserActivity"
+            android:exported="true" />
+        <activity
             android:name=".forms.EditClassTypeActivity"
             android:exported="true" />
         <activity

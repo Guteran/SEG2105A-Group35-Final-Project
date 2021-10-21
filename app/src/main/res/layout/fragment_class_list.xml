@@ -26,8 +26,19 @@
             android:text="Available Classes"
             android:textSize="20dp" />
 
+        <TextView
+            android:id="@+id/adminInfoMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Tap on class type to edit"
+            android:textColor="@color/red_alert"
+            android:visibility="invisible" />
+
         <ListView
-            android:id="@+id/classTypeListElement"
+            android:id="@+id/userListView"
             android:layout_width="match_parent"
             android:layout_height="360dp"
             android:layout_weight="1" />
