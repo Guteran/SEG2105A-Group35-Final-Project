@@ -91,7 +91,7 @@ public class UserListFragment extends Fragment {
 
 
                 } else {
-                    Toast.makeText(getContext(), "Only admins can view other users!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Only admins can view other users!", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(view).navigate(R.id.userProfileFragment);
                 }
             }

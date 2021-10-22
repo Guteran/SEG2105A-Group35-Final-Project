@@ -71,7 +71,7 @@ public class EditUserActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = editUsernameInput.getText().toString();
                 String firstName = editFirstNameInput.getText().toString();
-                String lastName = editFirstNameInput.getText().toString();
+                String lastName = editLastNameInput.getText().toString();
                 user.setUsername(username);
                 user.setFirstName(firstName);
                 user.setLastName(lastName);

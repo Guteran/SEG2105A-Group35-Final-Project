@@ -101,11 +101,11 @@ public class ClassListFragment extends Fragment {
                         isAdmin = false;
                         isInstructor = false;
                 }
+                updateAdminVisibility();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                updateUserProfile("Anonymous user", "member");
             }
         });
 
